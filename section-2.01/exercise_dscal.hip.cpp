@@ -80,11 +80,20 @@ int main(int argc, char *argv[]) {
     h_out[i] = 0;
   }
 
-  /* TODO: allocate memory on device */
+  /* allocate memory on device */
 
-  /* TODO: copy input array from host to GPU */
+  double* d_x = NULL;
 
-  /* TODO: copy the result array back to the host output array */
+  HIP_ASSERT(hipMalloc(&d_x, ARRAY_LENGTH*sizeof(double)));
+
+  /* copy input array from host to GPU */
+
+  HIP_ASSERT(hipMemcpy(d_x, h_x, ARRAY_LENGTH*sizeof(double), hipMemcpyHostToDevice));
+
+  /* copy the result array back to the host output array */
+
+  HIP_ASSERT(hipMemcpy(h_out, d_x, ARRAY_LENGTH*sizeof(double), hipMemcpyDeviceToHost));
+
 
   /* We can now check the results ... */
   std::cout << "Results:" << std::endl;
@@ -92,9 +101,9 @@ int main(int argc, char *argv[]) {
     int ncorrect = 0;
     for (int i = 0; i < ARRAY_LENGTH; i++) {
       /* The print statement can be uncommented for debugging... */
-      // std::cout << std::setw(9) << i << " " << std::fixed
-      //           << std::setprecision(2) << std::setw(5) << h_out[i]
-      //           << std::endl;
+      std::cout << std::setw(9) << i << " " << std::fixed
+                 << std::setprecision(2) << std::setw(5) << h_out[i]
+                 << std::endl;
       if (fabs(h_out[i] - a * h_x[i]) < DBL_EPSILON)
         ncorrect += 1;
     }
@@ -102,7 +111,9 @@ int main(int argc, char *argv[]) {
               << ", and correct: " << ncorrect << std::endl;
   }
 
-  /* TODO: free device buffer */
+  /* free device buffer */
+
+  HIP_ASSERT(hipFree(d_x))
 
   /* free host buffers */
 
