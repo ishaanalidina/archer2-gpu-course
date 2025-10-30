@@ -38,7 +38,7 @@ __host__ void myErrorHandler(hipError_t ifail, std::string file, int line,
 /* Kernel parameters */
 
 #define THREADS_PER_BLOCK_1D 256
-#define THREADS_PER_BLOCK_2D 16
+#define THREADS_PER_BLOCK_2D 4
 
 /* Kernel stub */
 
@@ -50,7 +50,7 @@ __global__ void myKernel(int mrow, int ncol, double alpha, double *x, double *y,
 
   if (i < mrow) 
   {
-    if (j < ncol * mrow)
+    if (j < ncol)
     {
       a[ncol * i + j] = a[ncol * i + j] + alpha * x[i] * y[j];
     }
@@ -126,9 +126,9 @@ int main(int argc, char *argv[]) {
   /* Define the execution configuration and run the kernel */
 
   uint nblockx = 1 + (mrow - 1) / THREADS_PER_BLOCK_1D;
-  uint nblocky = 1 + (ncol - 1) / 1;
+  uint nblocky = 1 + (ncol - 1) / THREADS_PER_BLOCK_2D;
   dim3 blocks = {nblockx, nblocky, 1};
-  dim3 threadsPerBlock = {THREADS_PER_BLOCK_1D, 1, 1};
+  dim3 threadsPerBlock = {THREADS_PER_BLOCK_1D, THREADS_PER_BLOCK_2D, 1};
 
   myKernel<<<blocks, threadsPerBlock>>>(mrow, ncol, alpha, d_x, d_y, d_a);
 
