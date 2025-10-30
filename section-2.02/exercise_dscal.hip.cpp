@@ -37,7 +37,7 @@ __host__ void myErrorHandler(hipError_t ifail, const std::string file, int line,
   { myErrorHandler((call), __FILE__, __LINE__, 1); }
 
 /* The number of integer elements in the array */
-#define ARRAY_LENGTH 256
+#define ARRAY_LENGTH 2048
 
 /* Suggested kernel parameters */
 #define NUM_BLOCKS 1
@@ -45,7 +45,7 @@ __host__ void myErrorHandler(hipError_t ifail, const std::string file, int line,
 
 __global__ void myKernel(double a, double* x)
 {
-	unsigned int i = threadIdx.x;
+	unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
 	x[i] *= a;
 	return;
 }
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
 
   // Specifying number of blocks and threads per block in dim3 variables.
   
-  dim3 blocks = {1, 1, 1};
+  dim3 blocks = {ARRAY_LENGTH/THREADS_PER_BLOCK, 1, 1};
   dim3 threadsPerBlock = {THREADS_PER_BLOCK, 1, 1};
 
   /* allocate memory on host; assign some initial values */
@@ -109,6 +109,8 @@ int main(int argc, char *argv[]) {
   /* ... kernel will be here  ... */
 
   myKernel<<<blocks, threadsPerBlock>>>(a, d_x);
+  HIP_ASSERT(hipPeekAtLastError());
+  HIP_ASSERT(hipDeviceSynchronize());
 
   /* copy the result array back to the host output array */
 
