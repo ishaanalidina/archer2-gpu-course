@@ -44,6 +44,22 @@ __host__ void myErrorHandler(hipError_t ifail, std::string file, int line,
 
 __global__ void myKernel(int mrow, int ncol, double alpha, double *x, double *y,
                          double *a) {
+
+  /// Initial serialised code from the slides (3/5).
+
+  unsigned int tid = blockIdx.x * blockDim.x + threadIdx.x;
+
+  if (tid == 0)
+  {
+    for (int i = 0; i < mrow; i++) 
+    {
+      for (int j = 0; j < ncol; j++)
+      {
+        a[ncol * i + j] = a[ncol * i + j] + alpha * x[i] * y[j];
+      }
+    }
+  }
+
   return;
 }
 
