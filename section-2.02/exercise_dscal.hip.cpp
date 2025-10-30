@@ -37,7 +37,7 @@ __host__ void myErrorHandler(hipError_t ifail, const std::string file, int line,
   { myErrorHandler((call), __FILE__, __LINE__, 1); }
 
 /* The number of integer elements in the array */
-#define ARRAY_LENGTH 100
+#define ARRAY_LENGTH 1000
 
 /* Suggested kernel parameters */
 #define NUM_BLOCKS 1
@@ -84,11 +84,12 @@ int main(int argc, char *argv[]) {
   // Specifying number of blocks and threads per block in dim3 variables.
 
   dim3 blocks = {1, 1, 1};
-  dim3 threadsPerBlock = {THREADS_PER_BLOCK, 1, 1};
-
-  unsigned int vBlock_x = std::ceil(ARRAY_LENGTH / THREADS_PER_BLOCK);
+  
+  unsigned int vBlock_x = int(std::ceil(float(ARRAY_LENGTH) / float(THREADS_PER_BLOCK)));
 
   blocks.x = vBlock_x;
+
+  dim3 threadsPerBlock = {THREADS_PER_BLOCK, 1, 1};
 
   /* allocate memory on host; assign some initial values */
 
