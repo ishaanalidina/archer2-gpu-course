@@ -3,3 +3,7 @@
 *~
 *.out
 *.swp
+
+# rocprof large files
+
+core
