@@ -43,10 +43,13 @@ __host__ void myErrorHandler(hipError_t ifail, const std::string file, int line,
 #define NUM_BLOCKS 1
 #define THREADS_PER_BLOCK 256
 
-__global__ void myKernel(double a, double* x)
+__global__ void myKernel(unsigned int nlen, double a, double* x)
 {
 	unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
-	x[i] *= a;
+	if (i < nlen)	
+	{
+	  x[i] *= a;
+	}
 	return;
 }
 
@@ -113,7 +116,7 @@ int main(int argc, char *argv[]) {
 
   /* ... kernel will be here  ... */
 
-  myKernel<<<blocks, threadsPerBlock>>>(a, d_x);
+  myKernel<<<blocks, threadsPerBlock>>>(ARRAY_LENGTH, a, d_x);
   HIP_ASSERT(hipPeekAtLastError());
   HIP_ASSERT(hipDeviceSynchronize());
 
