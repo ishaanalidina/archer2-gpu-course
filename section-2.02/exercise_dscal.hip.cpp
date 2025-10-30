@@ -43,6 +43,13 @@ __host__ void myErrorHandler(hipError_t ifail, const std::string file, int line,
 #define NUM_BLOCKS 1
 #define THREADS_PER_BLOCK 256
 
+__global__ void myKernel(double a, double* x)
+{
+	unsigned int i = threadIdx.x;
+	x[i] *= a;
+	return;
+}
+
 /* Main routine */
 
 int main(int argc, char *argv[]) {
@@ -74,6 +81,11 @@ int main(int argc, char *argv[]) {
   std::cout << "Maximum number of threads per block: "
             << prop.maxThreadsPerBlock << std::endl;
 
+  // Specifying number of blocks and threads per block in dim3 variables.
+  
+  dim3 blocks = {1, 1, 1};
+  dim3 threadsPerBlock = {THREADS_PER_BLOCK, 1, 1};
+
   /* allocate memory on host; assign some initial values */
 
   h_x = new double[ARRAY_LENGTH];
@@ -95,6 +107,8 @@ int main(int argc, char *argv[]) {
   HIP_ASSERT(hipMemcpy(d_x, h_x, sz, hipMemcpyHostToDevice));
 
   /* ... kernel will be here  ... */
+
+  myKernel<<<blocks, threadsPerBlock>>>(a, d_x);
 
   /* copy the result array back to the host output array */
 
