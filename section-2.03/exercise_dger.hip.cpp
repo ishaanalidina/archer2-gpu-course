@@ -48,12 +48,9 @@ __global__ void myKernel(int mrow, int ncol, double alpha, double *x, double *y,
   unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
   unsigned int j = blockIdx.y * blockDim.y + threadIdx.y;
 
-  if (i < mrow) 
+  if (i < mrow && j < ncol) 
   {
-    if (j < ncol)
-    {
       a[ncol * i + j] = a[ncol * i + j] + alpha * x[i] * y[j];
-    }
   }
 
   return;
