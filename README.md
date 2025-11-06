@@ -87,22 +87,25 @@ Goal: Understand the GPU architecture and programming model.
 |-------|------------------------------------------|------------------------------|
 | 09:30 | Logistics, login, modules, local details | See above                    |
 | 09:45 | Introduction                             |                              |
-|       | Performance model; Graphics processors   | [Lesson 1.1](section-1.01)   |
-| 10:30 | Morning break                            |                              |
-| 11:00 | The CUDA/HIP programming model           |                              |
-|       | Abstraction; host code and device code   | [Lesson 1.2](section-1.02)   |
+|       | Performance model; Graphics processors   | [Section 1.1](section-1.01)  |
+| 11:00 | Morning break                            |                              |
+| 11:20 | The CUDA/HIP programming model           |                              |
+|       | Abstraction; host code and device code   | [Section 1.2](section-1.02)  |
 | 12:00 | Close                                    |                              |
 
-### Session 2: Core Programming Concepts
-Goal: Learn how to write and execute basic GPU kernels.
+### Session 2: Core Programming Concepts and Performance
+Goal: Learn how to write and execute basic GPU kernels. Optimise performance.
 
 | Time  | Content                                  | Lesson                       |
 |-------|------------------------------------------|------------------------------|
 | 09:30 | CUDA/HIP programming: memory management  |                              |
-|       | `hipMalloc(), hipMemcpy()`               | [Lesson 2.1](section-2.01)   |
+|       | `hipMalloc(), hipMemcpy()`               | [Section 2.1](section-2.01)  |
+| 09:45 | Executing a kernel                       |                              |
+|       | `__global__` functions `<<<...>>>`       | [Section 2.2](section-2.02)  |
 | 10:30 | Morning break                            |                              |
-| 11:00 | Executing a kernel                       |                              |
-|       | `__global__` functions `<<<...>>>`       | [Lesson 2.2](section-2.02)   |
+| 11:00 | Review previous exercises                |                              |
+| 11:30 | Some performance considerations          |                              |
+|       | Exercise on matrix operation             | [Section 2.3](section-2.03)  |
 | 12:00 | Close                                    |                              |
 
 ### Session 3: Memory Hierarchy Deep Dive
@@ -112,25 +115,23 @@ Goal: Explore different types of memory and their performance implications.
 |-------|------------------------------------------|------------------------------|
 | 09:30 | Review previous exercises                |                              |
 | 10:00 | Managed memory                           |                              |
-|       | Exercise on managed memory               | [Lesson 3.1](section-2.04)   |
+|       | Exercise on managed memory               | [Section 2.4](section-2.04)  |
 | 10:30 | Morning break                            |                              |
 | 11:00 | Shared memory                            |                              |
-|       | Exercise on vector product               | [Lesson 3.2](section-2.05)   |
+|       | Exercise on vector product               | [Section 2.5](section-2.05)  |
 | 11:30 | Constant memory                          |                              |
-|       | All together: matrix-vector product      | [Lesson 3.3](section-2.06)   |
+|       | All together: matrix-vector product      | [Section 2.6](section-2.06)  |
 | 12:00 | Close                                    |                              |
 
-### Session 4: Performance and Concurrency
-Goal: Optimise performance and manage concurrent execution.
+### Session 4: Concurrency
+Goal: Manage concurrent execution.
 
 | Time  | Content                                  | Lesson                       |
 |-------|------------------------------------------|------------------------------|
 | 09:30 | Review previous exercises                |                              |
-| 10:00 | Some performance considerations          |                              |
-|       | Exercise on matrix operation             | [Lesson 4.1](section-2.03)   |
 | 10:30 | Morning break                            |                              |
 | 11:00 | Streams                                  |                              |
-|       | Using `hipMempcyAsync()` etc             | [Lesson 4.2](section-4.01)   |
+|       | Using `hipMempcyAsync()` etc             | [Section 4.1](section-4.01)  |
 | 12:00 | Close                                    |                              |
 
 ### Session 5: Advanced Topics and Multi-GPU
@@ -140,12 +141,12 @@ Goal: Learn advanced APIs and multi-GPU management.
 |-------|------------------------------------------|------------------------------|
 | 09:30 | Review previous exercises                |                              |
 | 10:00 | Graph API                                |                              |
-|       | Using `hipGraphLaunch()` etc             | [Lesson 5.1](section-4.02)   |
+|       | Using `hipGraphLaunch()` etc             | [Section 4.2](section-4.02)  |
 | 10:30 | Morning break                            |                              |
 | 11:00 | Device management: more then one GPU     |                              |
-|       | `hipMemcpy()` again                      | [Lesson 5.2](section-5.01)   |
+|       | `hipMemcpy()` again                      | [Section 5.1](section-5.01)  |
 | 11:30 | Putting it all together	               |                              |
-|       | Conjugate gradient exercise              | [Homework](section-6.01)     |
+|       | Conjugate gradient exercise              | [Section 6.1](section-6.01)  |
 | 12:00 | Close                                    |                              |
 
 
