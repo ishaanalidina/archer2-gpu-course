@@ -88,6 +88,11 @@ int main(int argc, char *argv[]) {
   std::cout << "Maximum number of threads per block: "
             << prop.maxThreadsPerBlock << std::endl;
 
+  /// Create two additional streams for the asynchronous copying of the matrices.
+
+  hipStream_t stream_2;
+  HIP_ASSERT(hipStreamCreate(&stream_2));
+
   /* Establish host data (with some initial values for x and y) */
 
   h_x = new double[mrow];
@@ -112,8 +117,11 @@ int main(int argc, char *argv[]) {
   HIP_ASSERT(hipMalloc(&d_a, mrow * ncol * sizeof(double)));
 
   hipMemcpyKind kind = hipMemcpyHostToDevice;
-  HIP_ASSERT(hipMemcpy(d_x, h_x, mrow * sizeof(double), kind));
-  HIP_ASSERT(hipMemcpy(d_y, h_y, ncol * sizeof(double), kind));
+  HIP_ASSERT(hipMemcpyAsync(d_x, h_x, mrow * sizeof(double), kind, stream_2));
+  HIP_ASSERT(hipMemcpyAsync(d_x, h_x, mrow * sizeof(double), kind));
+  // HIP_ASSERT(hipMemcpy(d_x, h_x, mrow * sizeof(double), kind));
+  // HIP_ASSERT(hipMemcpy(d_y, h_y, ncol * sizeof(double), kind));
+
   HIP_ASSERT(hipMemset(d_a, 0, mrow * ncol * sizeof(double)));
 
   /* Define the execution configuration and run the kernel */
@@ -122,6 +130,8 @@ int main(int argc, char *argv[]) {
   uint nblocky = 1 + (ncol - 1) / THREADS_PER_BLOCK_2D;
   dim3 blocks = {nblocky, nblockx, 1};
   dim3 threadsPerBlock = {THREADS_PER_BLOCK_2D, THREADS_PER_BLOCK_2D, 1};
+
+  HIP_ASSERT(hipStreamSynchronize(stream_2));  
 
   myKernel<<<blocks, threadsPerBlock>>>(mrow, ncol, alpha, d_x, d_y, d_a);
 
@@ -153,6 +163,8 @@ int main(int argc, char *argv[]) {
   delete h_a;
   delete h_x;
   delete h_y;
+
+  HIP_ASSERT(hipStreamDestroy(stream_2));
 
   return 0;
 }
