@@ -224,7 +224,7 @@ Agent 4
 Agent 5                  
 *******                  
   Name:                    gfx90a                             
-  Uuid:                    GPU-b0266df54d0dd2e1               
+  Uuid:                    GPU-790a09bfbf673859               
   Marketing Name:                                             
   Vendor Name:             AMD                                
   Feature:                 KERNEL_DISPATCH                    
@@ -242,7 +242,7 @@ Agent 5
   Chip ID:                 29711(0x740f)                      
   Cacheline Size:          64(0x40)                           
   Max Clock Freq. (MHz):   1700                               
-  BDFID:                   18688                              
+  BDFID:                   2304                               
   Internal Node ID:        4                                  
   Compute Unit:            104                                
   SIMDs per CU:            4                                  

@@ -123,7 +123,13 @@ int main(int argc, char *argv[]) {
   dim3 blocks = {nblocky, nblockx, 1};
   dim3 threadsPerBlock = {THREADS_PER_BLOCK_2D, THREADS_PER_BLOCK_2D, 1};
 
+  HIP_ASSERT(hipMemPrefetchAsync(d_x, mrow * sizeof(double), deviceNum, 0));
+  HIP_ASSERT(hipMemPrefetchAsync(d_y, ncol * sizeof(double), deviceNum, 0));
+
+
   myKernel<<<blocks, threadsPerBlock>>>(mrow, ncol, alpha, d_x, d_y, d_a);
+
+  hipMemPrefetchAsync(d_a, mrow * ncol * sizeof(double), hipCpuDeviceId, 0);
 
   HIP_ASSERT(hipPeekAtLastError());
   HIP_ASSERT(hipDeviceSynchronize());
