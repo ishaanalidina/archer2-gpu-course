@@ -90,30 +90,30 @@ int main(int argc, char *argv[]) {
 
   /* Establish host data (with some initial values for x and y) */
 
-  h_x = new double[mrow];
-  h_y = new double[ncol];
-  h_a = new double[mrow * ncol];
-  assert(h_x);
-  assert(h_y);
-  assert(h_a);
+  // h_x = new double[mrow];
+  // h_y = new double[ncol];
+  // h_a = new double[mrow * ncol];
+  // assert(h_x);
+  // assert(h_y);
+  // assert(h_a);
 
-  for (int i = 0; i < mrow; i++) {
-    h_x[i] = 1.0 * i;
-  }
-  for (int j = 0; j < ncol; j++) {
-    h_y[j] = 1.0 * j;
-  }
+  // for (int i = 0; i < mrow; i++) {
+  //   h_x[i] = 1.0 * i;
+  // }
+  // for (int j = 0; j < ncol; j++) {
+  //   h_y[j] = 1.0 * j;
+  // }
 
   /* Establish device data and initialise A to zero on the device */
   /* Copy the initial values of x and y to device memory */
 
-  HIP_ASSERT(hipMalloc(&d_x, mrow * sizeof(double)));
-  HIP_ASSERT(hipMalloc(&d_y, ncol * sizeof(double)));
-  HIP_ASSERT(hipMalloc(&d_a, mrow * ncol * sizeof(double)));
+  HIP_ASSERT(hipMallocManaged(&d_x, mrow * sizeof(double)));
+  HIP_ASSERT(hipMallocManaged(&d_y, ncol * sizeof(double)));
+  HIP_ASSERT(hipMallocManaged(&d_a, mrow * ncol * sizeof(double)));
 
-  hipMemcpyKind kind = hipMemcpyHostToDevice;
-  HIP_ASSERT(hipMemcpy(d_x, h_x, mrow * sizeof(double), kind));
-  HIP_ASSERT(hipMemcpy(d_y, h_y, ncol * sizeof(double), kind));
+  // hipMemcpyKind kind = hipMemcpyHostToDevice;
+  // HIP_ASSERT(hipMemcpy(d_x, h_x, mrow * sizeof(double), kind));
+  // HIP_ASSERT(hipMemcpy(d_y, h_y, ncol * sizeof(double), kind));
   HIP_ASSERT(hipMemset(d_a, 0, mrow * ncol * sizeof(double)));
 
   /* Define the execution configuration and run the kernel */
@@ -130,14 +130,14 @@ int main(int argc, char *argv[]) {
 
   /* Retrieve the results to h_a and check the results */
 
-  kind = hipMemcpyDeviceToHost;
-  HIP_ASSERT(hipMemcpy(h_a, d_a, mrow * ncol * sizeof(double), kind));
+  // kind = hipMemcpyDeviceToHost;
+  // HIP_ASSERT(hipMemcpy(h_a, d_a, mrow * ncol * sizeof(double), kind));
 
   int ncorrect = 0;
   std::cout << "Results:" << std::endl;
   for (int i = 0; i < mrow; i++) {
     for (int j = 0; j < ncol; j++) {
-      if (fabs(h_a[ncol * i + j] - alpha * h_x[i] * h_y[j]) < DBL_EPSILON) {
+      if (fabs(d_a[ncol * i + j] - alpha * d_x[i] * d_y[j]) < DBL_EPSILON) {
         ncorrect += 1;
       }
     }
@@ -150,9 +150,9 @@ int main(int argc, char *argv[]) {
   HIP_ASSERT(hipFree(d_y));
   HIP_ASSERT(hipFree(d_x));
   HIP_ASSERT(hipFree(d_a));
-  delete h_a;
-  delete h_y;
-  delete h_x;
+  // delete h_a;
+  // delete h_y;
+  // delete h_x;
 
   return 0;
 }
