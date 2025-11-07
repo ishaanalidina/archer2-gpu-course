@@ -90,14 +90,18 @@ int main(int argc, char *argv[]) {
 
   /// Create two additional streams for the asynchronous copying of the matrices.
 
-  hipStream_t stream_2;
+  hipStream_t stream_2, stream_3;
   HIP_ASSERT(hipStreamCreate(&stream_2));
+  HIP_ASSERT(hipStreamCreate(&stream_3));
 
   /* Establish host data (with some initial values for x and y) */
 
-  h_x = new double[mrow];
-  h_y = new double[ncol];
-  h_a = new double[mrow * ncol];
+  // h_x = new double[mrow];
+  // h_y = new double[ncol];
+  // h_a = new double[mrow * ncol];
+  hipHostMalloc(&h_x, mrow * sizeof(double));
+  hipHostMalloc(&h_y, ncol * sizeof(double));
+  hipHostMalloc(&h_a, mrow  * ncol * sizeof(double));
   assert(h_x);
   assert(h_y);
   assert(h_a);
@@ -118,7 +122,7 @@ int main(int argc, char *argv[]) {
 
   hipMemcpyKind kind = hipMemcpyHostToDevice;
   HIP_ASSERT(hipMemcpyAsync(d_x, h_x, mrow * sizeof(double), kind, stream_2));
-  HIP_ASSERT(hipMemcpyAsync(d_x, h_x, mrow * sizeof(double), kind));
+  HIP_ASSERT(hipMemcpyAsync(d_y, h_y, ncol * sizeof(double), kind, stream_3));
   // HIP_ASSERT(hipMemcpy(d_x, h_x, mrow * sizeof(double), kind));
   // HIP_ASSERT(hipMemcpy(d_y, h_y, ncol * sizeof(double), kind));
 
@@ -132,6 +136,7 @@ int main(int argc, char *argv[]) {
   dim3 threadsPerBlock = {THREADS_PER_BLOCK_2D, THREADS_PER_BLOCK_2D, 1};
 
   HIP_ASSERT(hipStreamSynchronize(stream_2));  
+  HIP_ASSERT(hipStreamSynchronize(stream_3));  
 
   myKernel<<<blocks, threadsPerBlock>>>(mrow, ncol, alpha, d_x, d_y, d_a);
 
@@ -160,11 +165,16 @@ int main(int argc, char *argv[]) {
   HIP_ASSERT(hipFree(d_y));
   HIP_ASSERT(hipFree(d_x));
   HIP_ASSERT(hipFree(d_a));
-  delete h_a;
-  delete h_x;
-  delete h_y;
+  // delete h_a;
+  // delete h_x;
+  // delete h_y;
+
+  HIP_ASSERT(hipHostFree(h_x));
+  HIP_ASSERT(hipHostFree(h_y));
+  HIP_ASSERT(hipHostFree(h_a));
 
   HIP_ASSERT(hipStreamDestroy(stream_2));
+  HIP_ASSERT(hipStreamDestroy(stream_3));
 
   return 0;
 }

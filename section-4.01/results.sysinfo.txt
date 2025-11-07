@@ -44,21 +44,21 @@ Agent 1
   Pool Info:               
     Pool 1                   
       Segment:                 GLOBAL; FLAGS: FINE GRAINED        
-      Size:                    131269552(0x7d303b0) KB            
+      Size:                    131222176(0x7d24aa0) KB            
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
       Alloc Alignment:         4KB                                
       Accessible by all:       TRUE                               
     Pool 2                   
       Segment:                 GLOBAL; FLAGS: KERNARG, FINE GRAINED
-      Size:                    131269552(0x7d303b0) KB            
+      Size:                    131222176(0x7d24aa0) KB            
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
       Alloc Alignment:         4KB                                
       Accessible by all:       TRUE                               
     Pool 3                   
       Segment:                 GLOBAL; FLAGS: COARSE GRAINED      
-      Size:                    131269552(0x7d303b0) KB            
+      Size:                    131222176(0x7d24aa0) KB            
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
       Alloc Alignment:         4KB                                
@@ -200,21 +200,21 @@ Agent 4
   Pool Info:               
     Pool 1                   
       Segment:                 GLOBAL; FLAGS: FINE GRAINED        
-      Size:                    132027628(0x7de94ec) KB            
+      Size:                    132075008(0x7df4e00) KB            
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
       Alloc Alignment:         4KB                                
       Accessible by all:       TRUE                               
     Pool 2                   
       Segment:                 GLOBAL; FLAGS: KERNARG, FINE GRAINED
-      Size:                    132027628(0x7de94ec) KB            
+      Size:                    132075008(0x7df4e00) KB            
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
       Alloc Alignment:         4KB                                
       Accessible by all:       TRUE                               
     Pool 3                   
       Segment:                 GLOBAL; FLAGS: COARSE GRAINED      
-      Size:                    132027628(0x7de94ec) KB            
+      Size:                    132075008(0x7df4e00) KB            
       Allocatable:             TRUE                               
       Alloc Granule:           4KB                                
       Alloc Alignment:         4KB                                
@@ -224,7 +224,7 @@ Agent 4
 Agent 5                  
 *******                  
   Name:                    gfx90a                             
-  Uuid:                    GPU-a9fdc11abecae616               
+  Uuid:                    GPU-ab43b63dec8adaf3               
   Marketing Name:                                             
   Vendor Name:             AMD                                
   Feature:                 KERNEL_DISPATCH                    
@@ -310,7 +310,7 @@ Agent 5
 Agent 6                  
 *******                  
   Name:                    gfx90a                             
-  Uuid:                    GPU-f7f97bb888eaf312               
+  Uuid:                    GPU-0b953cf8e6d4184a               
   Marketing Name:                                             
   Vendor Name:             AMD                                
   Feature:                 KERNEL_DISPATCH                    
@@ -396,7 +396,7 @@ Agent 6
 Agent 7                  
 *******                  
   Name:                    gfx90a                             
-  Uuid:                    GPU-48b259bb87231b97               
+  Uuid:                    GPU-b0266df54d0dd2e1               
   Marketing Name:                                             
   Vendor Name:             AMD                                
   Feature:                 KERNEL_DISPATCH                    
@@ -482,7 +482,7 @@ Agent 7
 Agent 8                  
 *******                  
   Name:                    gfx90a                             
-  Uuid:                    GPU-6f2327d18f86aa35               
+  Uuid:                    GPU-790a09bfbf673859               
   Marketing Name:                                             
   Vendor Name:             AMD                                
   Feature:                 KERNEL_DISPATCH                    
